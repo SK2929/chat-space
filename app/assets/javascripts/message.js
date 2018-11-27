@@ -19,7 +19,6 @@ $(function(){
     e.preventDefault();
     var formData = new FormData(this);
     var url = $(this).attr('action')
-    $('.form__submit').removeAttr('data-disable-with')
     // 非同期通信に必要なオプションの設定
     $.ajax({
       url: url,
@@ -34,6 +33,7 @@ $(function(){
       $('.messages').append(html)
       $('.form__message').val('')
       $('.form__mask').val('')
+      $('.form__submit').prop("disabled", false)
       $('.messages').animate({scrollTop: $('.messages')[0].scrollHeight}, 'fast');
     })
     .fail(function(){

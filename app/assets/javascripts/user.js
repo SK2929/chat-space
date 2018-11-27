@@ -1,0 +1,2 @@
+type: 'GET',
+url: '/users',

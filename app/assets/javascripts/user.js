@@ -53,4 +53,8 @@ var member_list = $("#chat-group-user-");
     $(this).parent().remove();
     removeProduct(information);
   });
+
+  $('#chat-group-user-').on('click', '.user-search-remove.chat-group-user__btn.chat-group-user__btn--remove.js-remove-btn', function(){
+    $(this).parent().remove();
+  });
 });

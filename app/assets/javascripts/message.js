@@ -43,6 +43,23 @@ $(function(){
 
 //自動更新機能実装
 $(function(){
+  function buildMESSAGE(message) {
+
+    var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
+
+    var html = `<div class="message">
+                  <div class="upper-message">
+                    <div class="upper-message__user-name">${ message.user_name }</div>
+                    <div class="upper-message__date">${ message.created_at }</div>
+                  </div>
+                  <div class="lower-meesage">
+                    <p class="lower-message__content">${ message.content }</p>
+                    ${ input_image }
+                  </div>
+                </div>`
+    return html;
+  }
+
   $(function(){
     setInterval(update, 5000);
   });
@@ -56,6 +73,10 @@ $(function(){
       dataType: 'json'
     })
     .always(function(data){
+      $.each(data, function(i, data){
+        var html = buildMESSAGE(data);
+
+      });
     })
   }
 })

@@ -75,7 +75,7 @@ $(function(){
     .always(function(data){
       $.each(data, function(i, data){
         var html = buildMESSAGE(data);
-
+        $('.messages').append(html)
       });
     })
   }

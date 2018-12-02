@@ -13,7 +13,7 @@ $(function(){
                   </div>
                 </div>`
     return html;
-    }
+  }
 
   $('#new_message').on('submit', function(e){
     e.preventDefault();
@@ -41,6 +41,21 @@ $(function(){
   })
 })
 
+//自動更新機能実装
+$(function(){
+  $(function(){
+    setInterval(update, 5000);
+  });
 
-
-
+  function update(){
+    var message_id = $('.message:last').data('id')
+    $.ajax({
+      url: location.href,
+      type: 'GET',
+      data: { message: { id: message_id } },
+      dataType: 'json'
+    })
+    .always(function(data){
+    })
+  }
+})

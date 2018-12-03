@@ -47,9 +47,9 @@ $(function(){
 
     var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
 
-    var html = `<div class="message">
+    var html = `<div class="message" data-id="${ message.id }" >
                   <div class="upper-message">
-                    <div class="upper-message__user-name">${ message.user_name }</div>
+                    <div class="upper-message__user-name">${ message.name }</div>
                     <div class="upper-message__date">${ message.created_at }</div>
                   </div>
                   <div class="lower-meesage">
@@ -66,6 +66,7 @@ $(function(){
 
   function update(){
     var message_id = $('.message:last').data('id')
+    console.log(message_id)
     $.ajax({
       url: location.href,
       type: 'GET',
@@ -73,6 +74,7 @@ $(function(){
       dataType: 'json'
     })
     .always(function(data){
+      console.log(data)
       $.each(data, function(i, data){
         var html = buildMESSAGE(data);
         $('.messages').append(html)

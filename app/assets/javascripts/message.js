@@ -49,7 +49,7 @@ $(function(){
 
     var html = `<div class="message" data-id="${ message.id }" >
                   <div class="upper-message">
-                    <div class="upper-message__user-name">${ message.name }</div>
+                    <div class="upper-message__user-name">${ message.user_id.name }</div>
                     <div class="upper-message__date">${ message.created_at }</div>
                   </div>
                   <div class="lower-meesage">
@@ -65,20 +65,26 @@ $(function(){
   });
 
   function update(){
-    var message_id = $('.message:last').data('id')
-    console.log(message_id)
+    if($('.message')[0]){
+      var message_id = $('.message:last').data('id')
+    } else {
+      var message_id = 0
+    }
     $.ajax({
       url: location.href,
       type: 'GET',
       data: { message: { id: message_id } },
       dataType: 'json'
     })
-    .always(function(data){
+    .done(function(data){
       console.log(data)
       $.each(data, function(i, data){
         var html = buildMESSAGE(data);
         $('.messages').append(html)
       });
+    })
+    .fail(function(){
+      alert('error');
     })
   }
 })

@@ -43,7 +43,7 @@ $(function(){
 
 //自動更新機能実装
 $(function(){
-  function buildMESSAGE(message) {
+  function buildMessage(message) {
 
     var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
 
@@ -76,15 +76,11 @@ $(function(){
       data: { message: { id: message_id } },
       dataType: 'json'
     })
-    .done(function(data){
-      console.log(data)
+    .always(function(data){
       $.each(data, function(i, data){
-        var html = buildMESSAGE(data);
+        var html = buildMessage(data);
         $('.messages').append(html)
       });
-    })
-    .fail(function(){
-      alert('error');
     })
   }
 })

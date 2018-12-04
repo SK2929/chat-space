@@ -2,7 +2,7 @@ $(function(){
   function buildHTML(message){
     var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
 
-    var html = `<div class="message">
+    var html = `<div class="message" data-id="${ message.id }">
                   <div class="upper-message">
                     <div class="upper-message__user-name">${ message.user_name }</div>
                     <div class="upper-message__date">${ message.created_at }</div>
@@ -28,7 +28,7 @@ $(function(){
       processData: false,
       contentType: false
     })
-    .done(function(data){
+    .always(function(data){
       var html = buildHTML(data);
       $('.messages').append(html)
       $('#new_message')[0].reset();
@@ -39,27 +39,7 @@ $(function(){
       alert('error');
     })
   })
-})
-
-//自動更新機能実装
-$(function(){
-  function buildMessage(message) {
-
-    var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
-
-    var html = `<div class="message" data-id="${ message.id }" >
-                  <div class="upper-message">
-                    <div class="upper-message__user-name">${ message.user_id.name }</div>
-                    <div class="upper-message__date">${ message.created_at }</div>
-                  </div>
-                  <div class="lower-meesage">
-                    <p class="lower-message__content">${ message.content }</p>
-                    ${ input_image }
-                  </div>
-                </div>`
-    return html;
-  }
-
+    // 自動更新機能設定
   $(function(){
     setInterval(update, 5000);
   });
@@ -78,8 +58,9 @@ $(function(){
     })
     .always(function(data){
       $.each(data, function(i, data){
-        var html = buildMessage(data);
+        var html = buildHTML(data);
         $('.messages').append(html)
+        $('.messages').animate({scrollTop: $('.messages')[0].scrollHeight}, 'fast');
       });
     })
   }

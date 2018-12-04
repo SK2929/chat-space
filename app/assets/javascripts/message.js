@@ -2,7 +2,7 @@ $(function(){
   function buildHTML(message){
     var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
 
-    var html = `<div class="message">
+    var html = `<div class="message" data-id="${ message.id }">
                   <div class="upper-message">
                     <div class="upper-message__user-name">${ message.user_name }</div>
                     <div class="upper-message__date">${ message.created_at }</div>
@@ -13,7 +13,7 @@ $(function(){
                   </div>
                 </div>`
     return html;
-    }
+  }
 
   $('#new_message').on('submit', function(e){
     e.preventDefault();
@@ -28,7 +28,7 @@ $(function(){
       processData: false,
       contentType: false
     })
-    .done(function(data){
+    .always(function(data){
       var html = buildHTML(data);
       $('.messages').append(html)
       $('#new_message')[0].reset();
@@ -39,8 +39,29 @@ $(function(){
       alert('error');
     })
   })
+    // 自動更新機能設定
+  $(function(){
+    setInterval(update, 5000);
+  });
+
+  function update(){
+    if($('.message')[0]){
+      var message_id = $('.message:last').data('id')
+    } else {
+      var message_id = 0
+    }
+    $.ajax({
+      url: location.href,
+      type: 'GET',
+      data: { message: { id: message_id } },
+      dataType: 'json'
+    })
+    .always(function(data){
+      $.each(data, function(i, data){
+        var html = buildHTML(data);
+        $('.messages').append(html)
+        $('.messages').animate({scrollTop: $('.messages')[0].scrollHeight}, 'fast');
+      });
+    })
+  }
 })
-
-
-
-

@@ -1,5 +1,8 @@
 $(function(){
   function buildHTML(message){
+    if (message.content == null ){
+        alert('メッセージを入力してください');
+    } else {
     var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
 
     var html = `<div class="message" data-id="${ message.id }">
@@ -13,6 +16,7 @@ $(function(){
                   </div>
                 </div>`
     return html;
+    }
   }
 
   $('#new_message').on('submit', function(e){

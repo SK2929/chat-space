@@ -1,6 +1,6 @@
-$(function() {
-var search_list = $("#user-search-result");
-var member_list = $("#chat-group-user-");
+$(document).on('turbolinks:load', function() {
+  var search_list = $("#user-search-result");
+  var member_list = $("#chat-group-users");
 
   function appendProduct(user) {
   var html = `<div class="chat-group-user clearfix">
@@ -16,7 +16,7 @@ var member_list = $("#chat-group-user-");
   }
 
   function removeProduct(information) {
-    var html = `<div class='chat-group-user clearfix js-chat-member' id='chat-group-user-8'>
+    var html = `<div class='chat-group-user clearfix js-chat-member' id='chat-group-user-${ information.id }'>
                   <input name='group[user_ids][]' type='hidden' value='${ information.userId }'>
                   <p class='chat-group-user__name'>${ information.userName }</p>
                   <a class='user-search-remove chat-group-user__btn chat-group-user__btn--remove js-remove-btn'>削除</a>
@@ -33,6 +33,7 @@ var member_list = $("#chat-group-user-");
       dataType: 'json'
     })
     .done(function(users) {
+      console.log(users)
       $("#user-search-result").empty();
       if (users.length !== 0) {
         users.forEach(function(user){
@@ -47,14 +48,15 @@ var member_list = $("#chat-group-user-");
       alert('ユーザー検索に失敗しました');
     });
   });
-
+// 検索後、ユーザー横にある追加ボタンを押したときの挙動
   $('#user-search-result').on('click', '.user-search-add.chat-group-user__btn.chat-group-user__btn--add', function(){
     var information = $(this).data();
     $(this).parent().remove();
     removeProduct(information);
   });
-
-  $('#chat-group-user-').on('click', '.user-search-remove.chat-group-user__btn.chat-group-user__btn--remove.js-remove-btn', function(){
+// 検索後、ユーザー横にある削除ボタンを押したときの挙動
+  $('#chat-group-users').on('click', '.user-search-remove.chat-group-user__btn.chat-group-user__btn--remove.js-remove-btn', function(){
     $(this).parent().remove();
   });
 });
+

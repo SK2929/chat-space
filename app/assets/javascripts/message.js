@@ -1,8 +1,6 @@
 $(function(){
   function buildHTML(message){
-    if (message.content == null ){
-        alert('メッセージを入力してください');
-    } else {
+
     var input_image = (message.image) ? `<img class="lower-message__image" src="${ message.image }">` : ``
 
     var html = `<div class="message" data-id="${ message.id }">
@@ -16,7 +14,6 @@ $(function(){
                   </div>
                 </div>`
     return html;
-    }
   }
 
   $('#new_message').on('submit', function(e){
@@ -24,6 +21,7 @@ $(function(){
     var formData = new FormData(this);
     var url = $(this).attr('action')
     // 非同期通信に必要なオプションの設定
+
     $.ajax({
       url: url,
       type: "POST",
@@ -33,17 +31,22 @@ $(function(){
       contentType: false
     })
     .always(function(data){
+    if (data.length == 0){
+      alert('メッセージを入力してください');
+      location.reload();
+    } else {
       var html = buildHTML(data);
       $('.messages').append(html)
       $('#new_message')[0].reset();
       $('.form__submit').prop("disabled", false)
       $('.messages').animate({scrollTop: $('.messages')[0].scrollHeight}, 'fast');
+      }
     })
     .fail(function(){
       alert('error');
     })
   })
-    // 自動更新機能設定
+  //   自動更新機能設定
   $(function(){
     setInterval(update, 5000);
   });

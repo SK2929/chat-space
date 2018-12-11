@@ -47,28 +47,28 @@ $(function(){
     })
   })
   //   自動更新機能設定
-  $(function(){
-    setInterval(update, 5000);
-  });
+  // $(function(){
+  //   setInterval(update, 5000);
+  // });
 
-  function update(){
-    if($('.message')[0]){
-      var message_id = $('.message:last').data('id')
-    } else {
-      var message_id = 0
-    }
-    $.ajax({
-      url: location.href,
-      type: 'GET',
-      data: { message: { id: message_id } },
-      dataType: 'json'
-    })
-    .always(function(data){
-      $.each(data, function(i, data){
-        var html = buildHTML(data);
-        $('.messages').append(html)
-        $('.messages').animate({scrollTop: $('.messages')[0].scrollHeight}, 'fast');
-      });
-    })
-  }
+  // function update(){
+  //   if($('.message')[0]){
+  //     var message_id = $('.message:last').data('id')
+  //   } else {
+  //     var message_id = 0
+  //   }
+  //   $.ajax({
+  //     url: location.href,
+  //     type: 'GET',
+  //     data: { message: { id: message_id } },
+  //     dataType: 'json'
+  //   })
+  //   .always(function(data){
+  //     $.each(data, function(i, data){
+  //       var html = buildHTML(data);
+  //       $('.messages').append(html)
+  //       $('.messages').animate({scrollTop: $('.messages')[0].scrollHeight}, 'fast');
+  //     });
+  //   })
+  // }
 })
